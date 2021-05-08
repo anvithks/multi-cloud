@@ -1,10 +1,6 @@
 name: SODA Multicloud CI Build
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master, test-git-actions ]
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
@@ -32,7 +28,7 @@ jobs:
         mkdir -p $(go env GOPATH)/src/github.com/sodafoundation/multi-cloud
         sudo ln -s $(pwd) $(go env GOPATH)/src/github.com/sodafoundation/multi-cloud
 
-    - name: Create the Folder structure
+    - name: Create the Folder structure and symlink to opensds (TODO:- fix the module from opensds to sodafoundation)
       run: |
         echo "Check current dir: \n" 
         pwd
@@ -58,8 +54,6 @@ jobs:
     
     - name: After success run Codecov Coverage tool.
       uses: codecov/codecov-action@v1
-      with:
-        verbose: true # optional (default = false)
     
     - name: Clean up the build
       run: |
